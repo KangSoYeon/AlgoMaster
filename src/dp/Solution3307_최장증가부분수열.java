@@ -15,20 +15,29 @@ public class Solution3307_최장증가부분수열 {
 			int N = Integer.parseInt(bf.readLine());
 			tk = new StringTokenizer(bf.readLine());
 			int[] arr = new int[N];
-			int answer =0;
+			int answer = 1;
 			
 			for(int i=0; i<N; i++) {
 				arr[i] = Integer.parseInt(tk.nextToken());
 			}
 			
-			
+			int[] memo = new int[N];
+			memo[0]=1; //첫번째 최장부분 증가수열은 무조건 1  
+			int max = 0;
+			for(int i=1; i<N; i++) {
+				max = 0;
+				for(int j=0; j<i; j++) {
+					if(arr[i]>arr[j] && memo[j]>max) {
+						max = memo[j];
+					}
+				}
+				memo[i] = max + 1;
+				if(memo[i]>answer)	answer=memo[i];
+			}
 			
 			System.out.println("#"+test+" "+answer);
-			
-			
+
 		}
-		
-		
 	}
 
 }
