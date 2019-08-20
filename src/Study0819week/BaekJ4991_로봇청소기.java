@@ -7,18 +7,18 @@ import java.util.StringTokenizer;
 
 public class BaekJ4991_로봇청소기 {
 	static int[][] dir = {{0,1}, {1,0}, {-1,0}, {0,-1}};
-	static int dirtC, cleanedC;
+	static int dirtC, cleanedC, w, h, sx, sy;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer tk = new StringTokenizer(bf.readLine());
-		int w = Integer.parseInt(tk.nextToken());
-		int h = Integer.parseInt(tk.nextToken());
+		w = Integer.parseInt(tk.nextToken());
+		h = Integer.parseInt(tk.nextToken());
 		
 		if(w==0 && h==0)	return;
 		
 		char[][] arr = new char[w][h];
-		int sx=0, sy=0;
+		
 		for(int i=0; i<w; i++) {
 			String str = bf.readLine();
 			for(int j=0; j<h; j++) {
@@ -34,7 +34,10 @@ public class BaekJ4991_로봇청소기 {
 		
 		for(int i=0; i<w; i++) {
 			for(int j=0; j<h; j++) {
-				sx 
+				for(int k=0; k<dir.length; k++) {
+					sx += dir[k][0];
+					sy += dir[k][1];
+				}
 			}
 		}
 		
