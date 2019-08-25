@@ -39,17 +39,16 @@ public class BaekJ2636_치즈 {
 		
 		for(int i=0; i<N; i++) {
 			for(int j=0; j<M; j++) {
-				if(arr[i][j]==1) {  
+				if(arr[i][j]==1) {  //치즈 찾았는데  
 					for(int k=0; k<dir.length; k++) {
 						int nx = i + dir[k][0];
 						int ny = j + dir[k][1];
 					
 						if(nx>=0 && ny>=0 && nx<N && ny<M 
-								&& arr[nx][ny]==3 && check[i][j]==0) { //방향검색시 치즈면 
+								&& arr[nx][ny]==3) { //방향검색시 공기면  
 							//arr[nx][ny]=3; //치즈가 녹았음 
 							q2.offer(new int[] {i, j}); //녹일치즈 큐에 담아놓고 한번에 녹이기
-							//당장 녹이면 영향받을수 있어서   
-							check[i][j]=1; 
+							//당장 녹이면 영향받을수 있어서  
 							break;
 						}
 					}
@@ -88,7 +87,7 @@ public class BaekJ2636_치즈 {
 		}
 		
 		int time=0;
-		while(true) {
+		//while(true) {
 			//공기인 부분을 체크해서 칠하기  
 			bfsA(0,0); //0,0과 맞닿은 0들은 모두 공기임 
 			check = new int[N][M]; //check 초기화 
@@ -103,12 +102,12 @@ public class BaekJ2636_치즈 {
 			
 			System.out.println();
 			
-			time++;
-			if(count == 0) {
-				break;
-			}
+//			time++;
+//			if(count == 0) {
+//				break;
+//			}
 			
-		}
+		//}
 		
 		System.out.println(time);
 		System.out.println(rightB);
