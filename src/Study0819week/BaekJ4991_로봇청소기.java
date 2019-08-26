@@ -4,16 +4,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class BaekJ4991_로봇청소기 {
 	static int[][] dir = {{0,1}, {1,0}, {-1,0}, {0,-1}};
-	static int w, h, sx, sy;
+	static int h,w, sx, sy, max, min;
 	static ArrayList<int[]> dirts;
 	static char[][] arr;
-	static int[][] check;
+	static int[][] check, cleanW;
+	static int[] line;
 	
 	public static void bfs(int x, int y) { //i,j 를 기준으로 최단경로 구하는 bfs
 		Queue<int[]> q = new LinkedList<>();
@@ -38,51 +40,91 @@ public class BaekJ4991_로봇청소기 {
 		}
 	}
 	
+	public static void maxLen(int idx, int count) {
+		//permutation 
+		if(count==dirts.size()+1) {
+			int len=0;
+			len += cleanW[0][line[0]];
+			for(int i=1; i<line.length-1; i++) {
+				len+= cleanW[line[i]][line[i+1]];
+			}
+			if(min < len) min = len;
+			return;
+		}
+		
+		line[idx]=count;
+		maxLen(idx+1, count+1);
+		maxLen(idx, count+1);
+		
+	}
+	
 	
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer tk = new StringTokenizer(bf.readLine());
-		w = Integer.parseInt(tk.nextToken());
-		h = Integer.parseInt(tk.nextToken());
-		dirts = new ArrayList<>();
+		StringTokenizer tk;
 		
-		if(w==0 && h==0)	return;
-		
-		arr = new char[w][h];
-		check = new int[w][h]; //최단 거리를 저장할 배열  
-		
-		for(int i=0; i<w; i++) {
-			String str = bf.readLine();
-			for(int j=0; j<h; j++) {
-				arr[i][j] = str.charAt(j);
-				if(arr[i][j]=='o') { //시작점 
-					sx = i;
-					sy = j;
-				}else if(arr[i][j]=='*') {
-					dirts.add(new int[] {i,j});
+		while(true) {
+			
+			tk = new StringTokenizer(bf.readLine());
+			h = Integer.parseInt(tk.nextToken());
+			w = Integer.parseInt(tk.nextToken());
+			dirts = new ArrayList<>();
+			if(w==0 && h==0)	return;
+			
+			arr = new char[w][h];
+			check = new int[w][h]; //최단 거리를 저장할 배열 
+			line = new int[dirts.size()];
+			
+			for(int i=0; i<w; i++) {
+				String str = bf.readLine();
+				for(int j=0; j<h; j++) {
+					arr[i][j] = str.charAt(j);
+					if(arr[i][j]=='o') { //시작점 
+						sx = i;
+						sy = j;
+					}else if(arr[i][j]=='*') {
+						dirts.add(new int[] {i,j});
+					}
 				}
 			}
-		}
-		
-		int[][] cleanW = new int[12][12]; //더러운지점과 깨끗한 지점 가는 최단경로 배열
-		
-		bfs(sx, sy);
-		
-		
-		for(int i=0; i<dirts.size(); i++) {
-			int[] temp;
+			
+			cleanW = new int[dirts.size()+1][dirts.size()+1]; //더러운지점과 깨끗한 지점 가는 최단경로 배열
+			
+			bfs(sx, sy); //출발지와의 거리들 
+	//		
+	//		for(int i=0; i<arr.length; i++) {
+	//			System.out.println(Arrays.toString(check[i]));
+	//		}
+			
 			for(int i=0; i<dirts.size(); i++) {
-				temp = dirts.get(i);
-				cleanW[0][i+1] = arr[temp[0]][temp[1]];
+				int[] temp = dirts.get(i);
+				cleanW[0][i+1] = check[temp[0]][temp[1]];
+				cleanW[i+1][0] = check[temp[0]][temp[1]];
 			}
-			bfs(temp[0], temp[1]);
-			check = new int[w][h]; //최단 거리를 저장할 배열  
-						
-	
+			
+			for(int i=0; i<dirts.size(); i++) {
+				int[] t = dirts.get(i);
+				bfs(t[0], t[1]);
+				for(int j=i+1; j<dirts.size(); j++) {
+					int[] t1 = dirts.get(j);
+					cleanW[i+1][j+1] = check[t1[0]][t1[1]];
+					cleanW[j+1][i+1] = check[t1[0]][t1[1]];
+				}
+			}
+			
+//			for(int i=0; i<cleanW.length; i++) {
+//				System.out.println(Arrays.toString(cleanW[i]));
+//			}
+			min =1000000;
+			maxLen(0,1);
+			
+			System.out.println(min);
+			
+			
+			
+			
 		}
-		
-
 		
 	}
 
