@@ -15,7 +15,7 @@ public class BaekJ4991_로봇청소기 {
 	static char[][] arr;
 	static int[][] check;
 	
-	public static void bfs(int x, int y) { //i,j 를 기준으로 최단경로 구하는
+	public static void bfs(int x, int y) { //i,j 를 기준으로 최단경로 구하는 bfs
 		Queue<int[]> q = new LinkedList<>();
 		q.add(new int[] {x,y});
 		check[x][y]=1;
@@ -36,10 +36,6 @@ public class BaekJ4991_로봇청소기 {
 				
 			}
 		}
-		
-		
-		
-		
 	}
 	
 	
@@ -60,7 +56,7 @@ public class BaekJ4991_로봇청소기 {
 			String str = bf.readLine();
 			for(int j=0; j<h; j++) {
 				arr[i][j] = str.charAt(j);
-				if(arr[i][j]=='o') {
+				if(arr[i][j]=='o') { //시작점 
 					sx = i;
 					sy = j;
 				}else if(arr[i][j]=='*') {
@@ -69,12 +65,24 @@ public class BaekJ4991_로봇청소기 {
 			}
 		}
 		
+		int[][] cleanW = new int[12][12]; //더러운지점과 깨끗한 지점 가는 최단경로 배열
+		
+		bfs(sx, sy);
 		
 		
+		for(int i=0; i<dirts.size(); i++) {
+			int[] temp;
+			for(int i=0; i<dirts.size(); i++) {
+				temp = dirts.get(i);
+				cleanW[0][i+1] = arr[temp[0]][temp[1]];
+			}
+			bfs(temp[0], temp[1]);
+			check = new int[w][h]; //최단 거리를 저장할 배열  
+						
+	
+		}
 		
-		
-		
-		
+
 		
 	}
 

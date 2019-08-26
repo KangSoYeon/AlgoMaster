@@ -3,7 +3,9 @@ package Study0825week;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -13,7 +15,7 @@ public class BaekJ2636_치즈 {
 	static int[][] arr, check;
 	static int[][] dir = {{1,0}, {-1,0}, {0,1}, {0,-1}};
 	
-	public static void bfsA(int x, int y) {
+	public static void bfsA(int x, int y) { //공기 만드는 bfs
 		Queue<int[]> q = new LinkedList<int[]>();
 		q.offer(new int[] {x, y});
 		
@@ -34,8 +36,8 @@ public class BaekJ2636_치즈 {
 		}
 	}
 	
-	public static void bfsC() {
-		Queue<int[]> q2 = new LinkedList<int[]>();
+	public static void melting() { //치즈 녹이기 
+		ArrayList<int[]> melt = new ArrayList<>();
 		
 		for(int i=0; i<N; i++) {
 			for(int j=0; j<M; j++) {
@@ -44,26 +46,22 @@ public class BaekJ2636_치즈 {
 						int nx = i + dir[k][0];
 						int ny = j + dir[k][1];
 					
-						if(nx>=0 && ny>=0 && nx<N && ny<M 
-								&& arr[nx][ny]==3) { //방향검색시 공기면  
-							//arr[nx][ny]=3; //치즈가 녹았음 
-							q2.offer(new int[] {i, j}); //녹일치즈 큐에 담아놓고 한번에 녹이기
-							//당장 녹이면 영향받을수 있어서  
+						if(nx>=0 && ny>=0 && nx<N && ny<M && arr[nx][ny]==3) { //방향검색시 공기면  
+							melt.add(new int[] {i, j}); //녹일치즈 큐에 담아놓고 한번에 녹이기
 							break;
 						}
 					}
 				}
 			}
 		}
-		if(count-q2.size()<=0) {
+		if(count-melt.size()<=0) { //직전 치즈갯수 세기 
 			rightB = count;
 		}
 		
-		count -= q2.size(); //치즈 감소 
-		
-		for(int i=0; i<q2.size(); i++) {
-			int[] temp = q2.poll();
-			arr[temp[0]][temp[1]] = 3; //한번에  치즈 녹이고	
+		count -= melt.size(); //치즈 갯수 감소  
+		for(int i=0; i<melt.size(); i++) {
+			int[] temp = melt.get(i);
+			arr[temp[0]][temp[1]] = 3; //한번에  치즈 녹이고
 		}
 	}
 
@@ -75,7 +73,6 @@ public class BaekJ2636_치즈 {
 		N = Integer.parseInt(tk.nextToken());
 		M = Integer.parseInt(tk.nextToken());
 		arr = new int[N][M];
-		check = new int[N][M];
 		count=0; //치즈갯수 저장 
 		
 		for(int i=0; i<N; i++) {
@@ -83,35 +80,25 @@ public class BaekJ2636_치즈 {
 			for(int j=0; j<M; j++) {
 				arr[i][j] = Integer.parseInt(tk.nextToken());
 				if(arr[i][j]==1) count++;
+
 			}
 		}
 		
 		int time=0;
-		//while(true) {
+		while(true) {
 			//공기인 부분을 체크해서 칠하기  
-			bfsA(0,0); //0,0과 맞닿은 0들은 모두 공기임 
 			check = new int[N][M]; //check 초기화 
-			for(int i=0; i<arr.length; i++)
-				System.out.println(Arrays.toString(arr[i]));
+			bfsA(0,0); //0,0과 맞닿은 0들은 모두 공기임 
+		
+			melting(); //치즈 한번 녹이기 
+			time++;
+			if(count == 0) {
+				break;
+			}
 			
-			System.out.println();
-			bfsC(); //치즈 한번 녹이기 
-			
-			for(int i=0; i<arr.length; i++)
-				System.out.println(Arrays.toString(arr[i]));
-			
-			System.out.println();
-			
-//			time++;
-//			if(count == 0) {
-//				break;
-//			}
-			
-		//}
+		}
 		
 		System.out.println(time);
 		System.out.println(rightB);
-
 	}
-
 }
