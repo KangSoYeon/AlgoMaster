@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class BaekJ4991_로봇청소기 {
+public class BaekJ4991_로봇청소기2 {
 	static int[][] dir = {{0,1}, {1,0}, {-1,0}, {0,-1}};
 	static int h,w, sx, sy, min;
 	static ArrayList<int[]> dirts;
@@ -41,30 +41,12 @@ public class BaekJ4991_로봇청소기 {
 	//dirts.size만큼 갯수를 선택하는거
 	static boolean[] used;
 	static int[] selected;
+	static int totalCount;
 	public static void maxLen(int idx) {
-		//permutation 
-		if(idx==dirts.size()+1) { //모두 선택이 되었으면 
-			//0인덱스는 무조건 0으로 선택되었음 
-			int len = 0;
-			for(int i=0; i<dirts.size(); i++) {
-				len += cleanW[selected[i]][selected[i+1]];
-			}
-		
-			if(len<min)  min = len;
-			
-			return;
-		}
-		
-		for(int i=1; i<=dirts.size(); i++) {
-			if(used[i]) continue;
-			
-			used[i]=true;
-			selected[idx] = i; //선택한 배열
-			maxLen(idx+1);
-			
-			used[i]=false;
-			
-		}
+		//nextpermutation 
+		totalCount++;
+		int i
+	
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -89,7 +71,7 @@ public class BaekJ4991_로봇청소기 {
 					if(arr[i][j]=='o') { //시작점 
 						sx = i;
 						sy = j;
-					}else if(arr[i][j]=='*') {
+					}else if(arr[i][j]=='*') { //더러운 점 모은 거 
 						dirts.add(new int[] {i,j});
 					}
 				}
@@ -119,7 +101,6 @@ public class BaekJ4991_로봇청소기 {
 					if(cleanW[i+1][j+1]==-1) never = true;
 				}
 			}
-
 			
 			if(never) {
 				min = -1;
@@ -133,7 +114,5 @@ public class BaekJ4991_로봇청소기 {
 			System.out.println(min);
 			
 		}
-		
 	}
-
 }
