@@ -11,6 +11,24 @@ public class BaekJ8958_OX퀴즈 {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(bf.readLine());
 		
+		for(int i=0; i<N; i++) {
+			String str = bf.readLine();
+			int answer =0;
+			int point=0;
+			for(int j=0; j<str.length(); j++) {
+				
+				if(str.charAt(j)=='O') {
+					point++;
+					answer+=point;
+				}else {
+					point=0;
+				}
+				
+			}
+			
+			System.out.println(answer);
+		}
+		
 
 	}
 
