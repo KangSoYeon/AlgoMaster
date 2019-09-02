@@ -18,7 +18,7 @@ public class BaekJ17144_미세먼지안녕 {
 		for(int i=0; i<R; i++) {
 			for(int j=0; j<C; j++) {
 				if(arr[i][j] != 0 && arr[i][j] != -1) {
-					dusts.add(new int[] {i, j});
+					dusts.add(new int[] {i, j, arr[i][j]});
 				}
 			}
 		}
@@ -28,7 +28,7 @@ public class BaekJ17144_미세먼지안녕 {
 	public static void spreadDust() {
 		for(int i=0; i<dusts.size(); i++) {
 			int[] temp = dusts.get(i);
-			int sp = arr[temp[0]][temp[1]]/5;
+			int sp = temp[2]/5;
 			
 			for(int k=0; k<dir.length; k++) {
 				int nx = temp[0]+dir[k][0];
@@ -132,6 +132,7 @@ public class BaekJ17144_미세먼지안녕 {
 		
 		for(int t=0; t<T; t++) {
 			//t번반복  
+			dusts = new ArrayList<>();
 			getDust();
 			spreadDust();
 			System.out.println(t+" 먼지 뿌린후");
