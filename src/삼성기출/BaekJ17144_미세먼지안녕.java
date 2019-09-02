@@ -55,7 +55,7 @@ public class BaekJ17144_미세먼지안녕 {
 		
 		temp = arr[0][C-1]; //저장  
 		
-		for(int i=x[0]-1; i>0; i--) { //위쪽으로  
+		for(int i=x[0]-2; i>0; i--) { //위쪽으로  
 			arr[i-1][C-1] = arr[i][C-1];
 		}
 		
