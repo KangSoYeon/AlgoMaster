@@ -43,7 +43,7 @@ public class BaekJ17144_미세먼지안녕 {
 		}
 	}
 	
-	public static void air() {
+	public static void air2() {
 		
 		//위에 공기청정기 
 		int temp = arr[x[0]][C-1];
@@ -102,7 +102,16 @@ public class BaekJ17144_미세먼지안녕 {
 		
 	}
 	
+	public static void airUp() {	
+		int[][] dir2 = {{0,1}, {-1,0}, {0, -1}, {1, 0}};
+		
+		
+	}
 	
+	public static void airDown() {
+		int[][] dir2 = {{0,1}, {1,0}, {0,-1}, {-1, 0}};
+		
+	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
