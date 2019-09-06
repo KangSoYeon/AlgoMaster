@@ -13,10 +13,11 @@ public class BaekJ8983_사냥꾼 {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer tk = new StringTokenizer(bf.readLine());
 		int count =0;
-		int[] shoot = new int[M];
+	
 		M = Integer.parseInt(tk.nextToken());
 		N = Integer.parseInt(tk.nextToken());
 		L = Integer.parseInt(tk.nextToken());
+		int[] shoot = new int[M];
 		
 		tk = new StringTokenizer(bf.readLine());
 
