@@ -9,13 +9,13 @@ public class final_test {
 	static int[] arr;
 	static int N;
 	static int R;
-	static int[] selected;
 	public static void main(String[] args) throws IOException {
-		N = 5;
-		R = 3;
-		arr = new int[] {3,4,1,2,6};
+		N = 3;
+		R = 2;
+		arr = new int[] {3,4,1};
 		selected = new int[R];
 		perSelected = new int[N];
+		dupSelected = new int[N];
 		checked = new boolean[N];
 		System.out.println("========combination========");
 		comb(0, 0);
@@ -27,9 +27,11 @@ public class final_test {
 			System.out.println(Arrays.toString(arr));
 			
 		}while(next_permutation());
-		
+		System.out.println("=====dupPermu=====");
+		dupPermu(0);
 	}
-	
+
+	static int[] selected;
 	public static void comb(int n, int r) {
 		
 		if(r==R) {
@@ -60,6 +62,19 @@ public class final_test {
 				checked[i]= false;
 			}
 		}
+	}
+	static int[] dupSelected;
+	public static void dupPermu(int idx) {
+		
+		if(idx==N) {
+			System.out.println(Arrays.toString(dupSelected));
+			return;
+		}
+		
+		for(int i=0; i<N; i++) {
+			dupSelected[idx]=i;
+			dupPermu(idx+1);
+		}	
 	}
 	
 	public static boolean next_permutation() {
