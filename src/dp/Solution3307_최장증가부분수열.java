@@ -26,8 +26,8 @@ public class Solution3307_최장증가부분수열 {
 			int max = 0;
 			for(int i=1; i<N; i++) {
 				max = 0;
-				for(int j=0; j<i; j++) {
-					if(arr[i]>arr[j] && memo[j]>max) {
+				for(int j=0; j<i; j++) { 
+					if(arr[i]>arr[j] && memo[j]>max) { //그 이전까지 값들 중 증가하는 추이이면서, memo값이; 맥스인걸 찾음
 						max = memo[j];
 					}
 				}
