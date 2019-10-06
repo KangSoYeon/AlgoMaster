@@ -72,7 +72,7 @@ public class final_test {
 		}
 		
 		for(int i=0; i<N; i++) {
-			dupSelected[idx]=i;
+			dupSelected[idx]=arr[i];
 			dupPermu(idx+1);
 		}	
 	}
