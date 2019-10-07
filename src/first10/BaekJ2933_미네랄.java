@@ -3,21 +3,46 @@ package first10;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class BaekJ2933_미네랄 {
 	static char[][] arr;
-	static boolean[][] check;
+	static int[][] check;
 	static int R, C;
+	static int[][] dir = {{1,0}, {0,1}, {-1, 0}, {0,-1}};
 	
 	public static void gravity() {
-		    
+		//중력 필요없는건 1
+		//2이상의 덩어리는 중력이 작용해야함  
+		
+		
 		
 		
 	}
 	
-	private static void bfs(int i, int j) {
+	private static void bfs(int i, int j, int c) {
+		//c로 check배열 색칠ㅈ하기
 		
+		Queue<int[]> q = new LinkedList<int[]>();
+		q.add(new int[] {i, j});
+		check[i][j] = c;
+		
+		while(!q.isEmpty()) {
+			int[] t = q.poll();
+			
+			for(int d=0; d<dir.length; d++) {
+				int nx = t[0] + dir[d][0];
+				int ny = t[1] + dir[d][1];
+				if(nx>=0 && ny>=0 && nx<R && ny<C
+						&& arr[nx][ny]=='x' && check[nx][ny]==0) {
+					q.add(new int[] {nx, ny});
+					check[nx][ny]=c;
+				}
+			}
+			
+		}
 		
 	}
 
@@ -27,7 +52,7 @@ public class BaekJ2933_미네랄 {
 		R = Integer.parseInt(tk.nextToken());
 		C = Integer.parseInt(tk.nextToken());
 		arr= new char[R][C];
-		check = new boolean[R][C];
+		check = new int[R][C];
 		
 		for(int i=0; i<R; i++) {
 			String str = bf.readLine();
@@ -64,12 +89,18 @@ public class BaekJ2933_미네랄 {
 			}
 			
 			//2. 미네랄 중력작용하면 체크해서 떨어뜨리고
+			int count = 1;
 			for(int i=0; i<R; i++) {
 				for(int j=C-1; j>=0; j--) { //밑에서부터 
-					if(!check[i][j] && arr[i][j]=='x') {
-						bfs(i, j); 
+					if(check[i][j]==0 && arr[i][j]=='x') {
+						bfs(i, j, count++); //덩어리가 여러개 이면
+						//바닥에 붙어있는건 일단 1  
 					}
 				}
+			}
+			
+			if(count>=2) { //파편이 있으면 
+				gravity();
 			}
 			
 			
