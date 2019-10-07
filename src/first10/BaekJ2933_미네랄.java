@@ -11,6 +11,8 @@ public class BaekJ2933_미네랄 {
 	static int R, C;
 	
 	public static void gravity() {
+		    
+		
 		
 	}
 	
