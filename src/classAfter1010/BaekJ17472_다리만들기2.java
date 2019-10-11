@@ -185,7 +185,7 @@ public class BaekJ17472_다리만들기2 {
 			
 			if(union(a[0], a[1])) {
 				answer += a[2];
-				//System.out.println(a[0] +" "+ a[1] +" "+ a[2]);
+				System.out.println(a[0] +" "+ a[1] +" "+ a[2]);
 				cnt++; //연결하는 걸 전체 간선 수 보다 1만큼 작게돌면 답 
 			}
 		}
@@ -226,5 +226,4 @@ public class BaekJ17472_다리만들기2 {
 			}
 		}
 	}
-
 }
