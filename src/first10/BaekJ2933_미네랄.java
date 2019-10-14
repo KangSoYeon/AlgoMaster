@@ -15,7 +15,7 @@ public class BaekJ2933_미네랄 {
 	
 	public static void gravity() {
 		//중력 필요없는건 1
-		//2이상의 덩어리는 중력이 작용해야함  
+		//2가 칠해진  덩어리는 중력이 작용해야함  
 		
 		
 		

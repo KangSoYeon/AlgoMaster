@@ -3,6 +3,7 @@ package classAfter1010;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class BaekJ17471_게리멘더링_Comb {
@@ -10,6 +11,7 @@ public class BaekJ17471_게리멘더링_Comb {
 	static int[] people;
 	static int[][] connect;
 	static boolean[] comb;
+	static ArrayList<Integer> first, second;
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -55,14 +57,21 @@ public class BaekJ17471_게리멘더링_Comb {
 		
 		if(n<N) {
 			comb[r]= true;
-			combination(n+1, r+1, pick+1);
-			combination(n+1, r, pick+1);
+			combination(n+1, r+1, pick);
+			combination(n+1, r, pick);
 		}
 		
 	}
 
 	private static void compare() {
-		// TODO Auto-generated method stub
+		first = new ArrayList<>();
+		second = new ArrayList<>();
+		
+		for(int i=0; i<N; i++) {
+			if(comb[i]) first.add(i);
+			else second.add(i);
+		}
+		
 		
 	}
 	
