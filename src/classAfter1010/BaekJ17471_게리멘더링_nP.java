@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class BaekJ17471_게리멘더링 {
+public class BaekJ17471_게리멘더링_nP {
 	static int N;
 	static int[] arr;
 	static int[] people;
@@ -40,11 +40,15 @@ public class BaekJ17471_게리멘더링 {
 		}
 		int min = 200;
 		boolean flag = false;
-		int cc =0;
+
+
 		
 		do {
-			cc++;
-			for(int t=1; t<(N/2)+1; t++) {
+			if(arr[0] > N/2) {//첫번째 수가 N/2면 그만 하기 
+				break;
+			}
+			System.out.println(Arrays.toString(arr));
+			for(int t=1; t<N; t++) {
 				
 				e1 = new ArrayList<>(); //첫번째 구역
 				e2 = new ArrayList<>(); //두번쨰 구역
@@ -96,6 +100,7 @@ public class BaekJ17471_게리멘더링 {
 	
 	//e1에 있는 배열들 서로 연결되어 있는지 확인하는 함수 
 	static void dfs1(int n) {
+		check[n] = true;
 		for(int i=0; i<N; i++) {
 			if(e1.contains(i) && connect[n][i]==1 && !check[i]) { //n과 연결되어 있고, check간적 없으면 
 				check[i] = true;
@@ -105,6 +110,7 @@ public class BaekJ17471_게리멘더링 {
 	}
 	
 	static void dfs2(int n) {
+		check[n] = true;
 		for(int i=0; i<N; i++) {
 			if(e2.contains(i) && connect[n][i]==1 && !check[i]) { //n과 연결되어 있고, check간적 없으면 
 				check[i] = true;

@@ -50,8 +50,8 @@ public class Main_B17471_게리맨더링_김태희_np {
 	static int np[];
 	private static void divide(int target) {
 		np = new int[N];
-		int c = 0,i=N-1;
-		while(c++<target) np[i--] = 1;
+		int c = 0, i=N-1;
+		while(c++<target) np[i--] = 1; //갯수만큼 1넣고 
 		
 		do {
 			compare();			
