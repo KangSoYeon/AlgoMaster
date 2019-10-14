@@ -72,6 +72,8 @@ public class BaekJ17471_게리멘더링_Comb {
 			else second.add(i);
 		}
 		
+		dfs(i, j);
+		
 		
 	}
 	
