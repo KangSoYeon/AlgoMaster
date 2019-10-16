@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class BaekJ17471_게리멘더링_nP {
+public class BaekJ17471_게리멘더링 {
 	static int N;
 	static int[] arr;
 	static int[] people;
