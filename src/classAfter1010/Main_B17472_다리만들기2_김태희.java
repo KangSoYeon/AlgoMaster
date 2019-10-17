@@ -44,6 +44,15 @@ public class Main_B17472_다리만들기2_김태희 {
 		}
 		//인접행렬 만들기
 		makeAdjMatrix();
+		
+		for(int i=0; i<cnt; i++) {
+			for(int j=0; j<cnt; j++) {
+				System.out.print(adj[i][j]+" ");
+			}
+			System.out.println();
+		}
+		
+		
 		System.out.println(makeMST());
 		
 	}
@@ -95,6 +104,9 @@ public class Main_B17472_다리만들기2_김태희 {
 				}
 			}
 		}
+		
+		
+		
 	}
 
 	static class Vertex implements Comparable<Vertex>{

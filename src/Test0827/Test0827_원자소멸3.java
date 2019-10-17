@@ -1,11 +1,11 @@
+package Test0827;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Test0827_원자소멸 {
+public class Test0827_원자소멸3 {
 	
 	static int N, answer;
 	static int[][] dir = {{-1,0}, {1,0}, {0,-1}, {0,1}}; //상하좌우
@@ -13,15 +13,12 @@ public class Test0827_원자소멸 {
 	static int[][] pick;
 	static boolean[] check;
 	
-	public static void comb(int idx, int p) { //모든 원소중에 2개 뽑은걸 줄세워서 그 두개가 충돌할건지 안할건지 보는 함수
+	public static void per(int idx) { //모든 원소중에 2개 뽑은걸 줄세워서 그 두개가 충돌할건지 안할건지 보는 함수
 		
 		if(idx==2) {
 			//pick에 두개 뽑았음 
 			int[] a = pick[0];
 			int[] b = pick[1];
-			System.out.println(Arrays.toString(a));
-			System.out.println();
-			System.out.println(Arrays.toString(b));
 			boolean flag = false;
 			if(a[0]==b[0] && a[1]>b[1] && a[2]==1 && b[2]==0) { //x좌표가 같을 때
 				//a의 y좌표가 크다 가정
@@ -49,16 +46,17 @@ public class Test0827_원자소멸 {
 		}
 		
 		
-		//for(int i=p; i<arr.size(); i++){
-		if(p<N) {
-			System.out.println("P:"+p);
-			pick[idx] = arr.get(p);
-			comb(idx, p+1); //해당꺼 선택하지 않거나
-			comb(idx+1, p+1); //선택하거나 
-			
+		for(int i=0; i<arr.size(); i++){
+			pick[idx] = arr.get(i);
+			check[i] = true;
+			per(idx+1);
+			check[i]=false;
 		}
 		
 	}
+	
+	
+	
 	
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
@@ -83,11 +81,8 @@ public class Test0827_원자소멸 {
 				
 				arr.add(new int[] {x, y, d, k});
 			}
-//			
-//			for(int i=0; i<arr.size(); i++)
-//				System.out.println(Arrays.toString(arr.get(i)));
 			
-			comb(0, 0);
+			per(0);
 						
 			System.out.println("#"+test+" "+ answer);
 

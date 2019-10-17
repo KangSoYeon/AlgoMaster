@@ -8,50 +8,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
-/*
 
-
-8 8
-0 0 0 0 0 1 0 1
-0 1 0 1 0 1 1 0
-1 1 1 1 1 1 0 0
-0 0 1 0 0 1 0 0
-1 1 0 0 0 1 1 0
-0 0 0 1 1 1 1 1
-0 1 1 0 0 1 1 0
-0 0 1 0 1 0 0 1
-output: 11
-correct answer: -1
-
-10 5
-0 1 0 0 0
-1 1 1 0 0
-1 0 1 1 1
-0 1 1 1 0
-1 0 0 0 1
-1 1 1 0 1
-0 0 0 0 1
-0 0 0 1 0
-0 0 0 1 1
-0 0 0 0 0
-output: 6
-correct answer: -1
-
-10 6
-0 0 0 1 0 0
-0 0 0 1 0 0
-0 1 0 0 0 1
-0 0 0 0 0 0
-1 1 0 1 1 0
-1 0 0 0 1 0
-1 1 0 0 1 0
-0 0 0 0 1 1
-0 0 0 0 0 0
-0 1 0 0 0 0
-output: -1
-correct answer: 13
- */
-public class BaekJ17472_다리만들기2 {
+public class BaekJ17472_다리만들기2_크루스칼 {
 	static int N, M;
 	static int[][] arr, check;
 	static int[][] dir = {{1,0}, {-1,0}, {0,1}, {0,-1}};
@@ -84,7 +42,6 @@ public class BaekJ17472_다리만들기2 {
 		arr = new int[N][M];
 		check = new int[N][M];
 		
-		
 		for(int i=0; i<N; i++) {
 			tk = new StringTokenizer(bf.readLine());
 			for(int j=0; j<M; j++) {
@@ -112,49 +69,38 @@ public class BaekJ17472_다리만들기2 {
 				connect[i][j] = 150; //최대값으로 connect값 초기화 
 			}
 		}
+
 		
-		//좌우 섬 연결 여부 검사 
+		//섬 모두 탐색하면서 연결 검사 --> 섬끼리 인접리스트 만들기 
+		int nx, ny;
 		for(int i=0; i<N; i++) {
-			int dis =0;
-			int s = 0;
 			for(int j=0; j<M; j++) {
-				if(check[i][j] == 0) {
-					dis++;
-				}else if(s!=0 && check[i][j]!=0 && s!= check[i][j]){ //그전에 섬을 발견하고 두번째 섬을 발견한 경우(같은 섬이 아니어야함)
-					int x = s-1;
-					int y = check[i][j]-1;
-					if(connect[x][y] > dis && dis>=2) { //최소의 dis로 섬간의 거리 채우기 
-						connect[x][y] = dis;
-						connect[y][x] = dis;
+				if(check[i][j]!=0) { //섬을 찾으면
+					int other = check[i][j];
+					for(int d=0; d<dir.length; d++) {
+						nx = i;
+						ny = j;
+						int distance = 0;
+						while(true) { //이 방향으로 계속 갔을 때 
+							nx += dir[d][0];
+							ny += dir[d][1];
+							
+							if(nx<0 || ny<0 || nx>=N || ny>=M || check[nx][ny]==other) break; //이방향으로 더이상 갈수 없으면 
+													
+							int now = check[nx][ny];
+							if(now!=0 && now!=other) { //새로운 섬 찾으면
+								if(distance>=2) { //2가 안넘으면 연결해도 안되고, 더 탐색해도 안됨!!!!
+									if(connect[now-1][other-1] > distance) { //원래 있던 값보다 distance가 작으면 
+										connect[now-1][other-1] = distance;
+									}
+								}
+								break; //섬과 섬 연결했으면 그만가기, 2보다 거리가 작은데 다른섬 만난경우도 나가기 !!!!1
+							}
+							else if(now==0){ // 물일때만 
+								distance++;
+							}
+						}
 					}
-					dis = 0; //거리 계산 했으면 거리 초기화 
-					s = check[i][j]; //s도 다음 섬으로 옮기기 
-				}else if(s==0 && check[i][j]!=0) { //첫번째 섬을 발견한 경우 
-					s = check[i][j];
-					dis=0;
-				}
-			}
-		}
-		
-		//상하 섬 연결 여부 검사 
-		for(int i=0; i<M; i++) {
-			int dis =0;
-			int s = 0;
-			for(int j=0; j<N; j++) {
-				if(check[j][i] == 0) {
-					dis++;
-				}else if(s!=0 && check[j][i]!=0 && s!= check[j][i]){ //그전에 섬을 발견하고 두번째 섬을 발견한 경우(같은 섬이 아니어야함)
-					int x = s-1;
-					int y = check[j][i]-1;
-					if(connect[x][y] > dis && dis>=2) { //최소의 dis로 섬간의 거리 채우기 
-						connect[x][y] = dis;
-						connect[y][x] = dis;
-					}
-					dis = 0; //거리 계산 했으면 거리 초기화 
-					s = check[j][i]; //s도 다음 섬으로 옮기기 
-				}else if(s==0 && check[j][i]!=0) { //첫번째 섬을 발견한 경우 
-					s = check[j][i];
-					dis = 0;
 				}
 			}
 		}
@@ -175,8 +121,6 @@ public class BaekJ17472_다리만들기2 {
 				return o1[2]-o2[2]; //작은 순서대로 정렬
 			}
 		});
-//		for(int a=0; a<list.size(); a++)
-//			System.out.println(Arrays.toString(list.get(a)));
 		
 		int answer =0;
 		int cnt=0;
@@ -185,31 +129,12 @@ public class BaekJ17472_다리만들기2 {
 			
 			if(union(a[0], a[1])) {
 				answer += a[2];
-				System.out.println(a[0] +" "+ a[1] +" "+ a[2]);
 				cnt++; //연결하는 걸 전체 간선 수 보다 1만큼 작게돌면 답 
 			}
 		}
-		System.out.println(cnt);
-		System.out.println(count-1);
-		
-		System.out.println(Arrays.toString(parent));
 		
 		if(cnt!=count-2) System.out.println("-1");
 		else System.out.println(answer);
-		
-		for(int i=0; i<N; i++) {
-			for(int j=0; j<M; j++) {
-				System.out.print(check[i][j]+" ");
-			}
-			System.out.println();
-		}
-		System.out.println("----------------------------------------");
-		for(int i=0; i<count-1; i++) {
-			for(int j=0; j<count-1; j++) {
-				System.out.print(connect[i][j]+" ");
-			}
-			System.out.println();
-		}
 
 	}
 

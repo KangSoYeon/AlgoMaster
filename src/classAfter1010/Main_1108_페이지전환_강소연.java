@@ -12,7 +12,7 @@ public class Main_1108_페이지전환_강소연 {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(bf.readLine());
 		StringTokenizer tk;
-		int[][] D= new int[N][N];
+		int[][] D = new int[N][N];
 		
 		int max = Integer.MIN_VALUE;
 		for(int i=0; i<N; i++) {

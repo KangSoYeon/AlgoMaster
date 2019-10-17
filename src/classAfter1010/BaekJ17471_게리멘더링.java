@@ -41,8 +41,6 @@ public class BaekJ17471_게리멘더링 {
 		int min = 200;
 		boolean flag = false;
 
-
-		
 		do {
 			if(arr[0] > N/2) {//첫번째 수가 N/2면 그만 하기 
 				break;
