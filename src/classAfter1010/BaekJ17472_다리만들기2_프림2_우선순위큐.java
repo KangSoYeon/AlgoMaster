@@ -9,28 +9,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
 
-public class BaekJ17472_다리만들기2_크루스칼 {
+public class BaekJ17472_다리만들기2_프림2_우선순위큐 {
 	static int N, M;
 	static int[][] arr, check;
 	static int[][] dir = {{1,0}, {-1,0}, {0,1}, {0,-1}};
-	
-	static int parent[]; // i번째 노드의 루트 노드를 저장하고 있는 변수
-	
-	static void make() {
-		Arrays.fill(parent, -1);
-	}
-	static int find(int a) {
-		if(parent[a]<0) return a;
-		return parent[a] = find(parent[a]);
-	}
-	
-	static boolean union(int a, int b) {
-		int aRoot = find(a);
-		int bRoot = find(b);
-		if(aRoot == bRoot) return false;
-		parent[bRoot] = aRoot;
-		return true;
-	}
 
 	public static void main(String[] args) throws IOException {
 		
@@ -61,8 +43,7 @@ public class BaekJ17472_다리만들기2_크루스칼 {
 		
 		//각 섬별 연결 행렬 만들기
 		int[][] connect = new int[count-1][count-1];
-		parent = new int[count-1];
-		make();
+	
 		
 		for(int i=0; i<count-1; i++) {
 			for(int j=0; j<count-1; j++) {
@@ -89,7 +70,7 @@ public class BaekJ17472_다리만들기2_크루스칼 {
 													
 							int now = check[nx][ny];
 							if(now!=0 && now!=other) { //새로운 섬 찾으면
-								if(distance>=2) { //2가 안넘으면 새로운 섬 찾았더라도, 연결해도 안되고, 더 탐색해도 안됨!!!!
+								if(distance>=2) { //2가 안넘으면 연결해도 안되고, 더 탐색해도 안됨!!!!
 									if(connect[now-1][other-1] > distance) { //원래 있던 값보다 distance가 작으면 
 										connect[now-1][other-1] = distance;
 									}
@@ -104,38 +85,42 @@ public class BaekJ17472_다리만들기2_크루스칼 {
 				}
 			}
 		}
+	
+		//만들어진 인접행렬로 prim 돌리기
+		long answer =0;
+		boolean[] check = new boolean[count-1]; //방문했는지 안했는지 체크, 모든 정점 방문했는지 체크
+
+		ArrayList<Integer> been = new ArrayList<>();
+		been.add(0);
+		check[0]= true;
 		
-			
-		ArrayList<int[]> list = new ArrayList<>();
-		for(int i=0; i<count-1; i++) {
-			for(int j=0; j<count-1; j++) {
-				if(connect[i][j]!=150) {
-					list.add(new int[] {i, j, connect[i][j]}); //인접한 x,y,그 무게 
+		int idx = 0;
+		//안간 노드수 만큼 반복 돌리는데, 
+		for(int node=0; node<count-2; node++) { //한노드는 갔으니까 count-2만큼 돌리기 
+			int min = Integer.MAX_VALUE;
+			for(int i=0; i<been.size(); i++) { //이미 방문한 노드에서 
+				int cur = been.get(i);
+				for(int j=0; j<count-1; j++) { //모든 노드를 검사하면서
+					if(connect[cur][j]!=150 && !check[j] && connect[cur][j]<min ) { //연결되어있고, 지금 노드랑 다른 노드이면서, 안방문한 노드에 대해
+						min = connect[cur][j];
+						idx = j; //다음에 방문한 노드  j기억
+					}
 				}
 			}
-		}
-		
-		Collections.sort(list, new Comparator<int[]>() {
-			@Override
-			public int compare(int[] o1, int[] o2) {
-				return o1[2]-o2[2]; //작은 순서대로 정렬
+			if(!been.contains(idx)) { //방문 한적 없는 노드만 넣기 
+				been.add(idx); //노드 하나씩 더해짐 --> 모든 노드 다볼때까지 반복 
+				check[idx]= true;
+				answer += min; //간선의 길이만큼 계속 더해주기 
 			}
-		});
-		
-		int answer =0;
-		int cnt=0;
-		for(int i=0; i<list.size(); i++) {
-			int[] a = list.get(i);
-			
-			if(union(a[0], a[1])) {
-				answer += a[2];
-				cnt++; //연결하는 걸 전체 간선 수 보다 1만큼 작게돌면 답 
-			}
+			//이거 했는데 아직도 안간 노드 있으면 
 		}
+	
+		//if(answer>999999) System.out.println(-1); //만약 하나라도 연결안되는 섬이 있으면 Maxvalue를 한번이라도 더함 
+		//else System.out.println(answer);
 		
-		if(cnt!=count-2) System.out.println("-1");
+		if(been.size()<count-1) System.out.println(-1);
 		else System.out.println(answer);
-
+		
 	}
 
 	private static void dfs(int x,int y, int k) {

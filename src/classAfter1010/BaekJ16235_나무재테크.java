@@ -64,8 +64,8 @@ public class BaekJ16235_나무재테크 {
 			tk = new StringTokenizer(bf.readLine());
 			int[] temp = {Integer.parseInt(tk.nextToken())-1 //x좌표
 						, Integer.parseInt(tk.nextToken())-1 //y좌표
-						, Integer.parseInt(tk.nextToken()) //age
-						}; 
+						, Integer.parseInt(tk.nextToken())};//age
+						
 			arr[temp[0]][temp[1]].getTree().add(temp[2]); //해당 좌표에 존재하는 나무를 추가하며 나무의 나이를 넣음 
 		}
 		
