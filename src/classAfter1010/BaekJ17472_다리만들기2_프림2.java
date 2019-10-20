@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
 
-public class BaekJ17472_다리만들기2_프림2_우선순위큐 {
+public class BaekJ17472_다리만들기2_프림2 {
 	static int N, M;
 	static int[][] arr, check;
 	static int[][] dir = {{1,0}, {-1,0}, {0,1}, {0,-1}};
