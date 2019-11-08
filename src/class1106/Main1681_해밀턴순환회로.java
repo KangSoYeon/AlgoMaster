@@ -7,13 +7,12 @@ import java.util.StringTokenizer;
 
 public class Main1681_해밀턴순환회로 {
 
-	static int N, arr[][], picked[], min, route;
+	static int N, arr[][], min, route;
 	static boolean checked[];
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer tk;
 		N = Integer.parseInt(bf.readLine());
-		picked = new int[N-1];
 		checked = new boolean[N];
 		min = Integer.MAX_VALUE;
 	
@@ -30,24 +29,20 @@ public class Main1681_해밀턴순환회로 {
 	}
 	//순열뽑기
 	static void permu(int idx, int route, int before) {
+		if(route>min) return; //더커지면 거기서 끝내기 --> 이걸로 많이 도는거 줄여준다.
 		if(idx>=N-1) {
-			route += arr[before][0]; //돌아가는루트
-			if(min>route) {
-				min = route;
-			}
-			//System.out.println(Arrays.toString(picked));
+			if(arr[before][0]!=0) route += arr[before][0]; //돌아가는루트 길이 추가 
+			else return;
+			
+			if(min>route) min = route;
 			return;
 		}
 		
-		if(route>min) return; //더커지면 거기서 끝내기 
-		
 		for(int i=1; i<N; i++) {
-			if(checked[i]) continue;
-			
-			//picked[idx] = line[i];
-			route+=arr[before][i];
+			if(checked[i] || arr[before][i]==0) continue;
+			//route+=arr[before][i]; //before에서 다음 껄로 이동--> 이러면 재귀라서 안됨
 			checked[i] = true;
-			permu(idx+1, route, i);
+			permu(idx+1, route + arr[before][i], i);
 			checked[i] = false;
 		}
 	}
